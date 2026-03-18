@@ -41,7 +41,7 @@ class ContentSpec extends Specification {
         content.availableTo() == now.plusDays(5)
         content.averageRating() == new BigDecimal("4.97")
         content.reviewCount() == 3L
-        content.favorite()
+        !content.favorite()
         content.images() == images
     }
 
