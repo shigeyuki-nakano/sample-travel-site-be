@@ -9,6 +9,11 @@ import java.util.List;
 @Mapper
 public interface ContentsMapper {
 
+    /**
+     * 全コンテンツを都道府県・国・レビュー集計・お気に入り状態と結合してIDの昇順で取得する。
+     *
+     * @return コンテンツエンティティのリスト。件数が0件の場合は空リストを返す。
+     */
     @Select("""
         SELECT
             c.id,
