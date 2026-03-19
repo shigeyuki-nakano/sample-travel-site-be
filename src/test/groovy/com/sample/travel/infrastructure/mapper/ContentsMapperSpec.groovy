@@ -1,12 +1,12 @@
 package com.sample.travel.infrastructure.mapper
 
+import org.mybatis.spring.boot.test.autoconfigure.MybatisTest
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 
 import java.math.BigDecimal
 
-@SpringBootTest
+@MybatisTest
 class ContentsMapperSpec extends Specification {
 
     @Autowired
@@ -47,7 +47,7 @@ class ContentsMapperSpec extends Specification {
 
         then:
         content2 != null
-        content2.favorite == true
+        content2.favorite
     }
 
     def "お気に入り未登録の content_id=1 で favorite=false になること"() {
@@ -57,6 +57,6 @@ class ContentsMapperSpec extends Specification {
 
         then:
         content1 != null
-        content1.favorite == false
+        content1.favorite
     }
 }
