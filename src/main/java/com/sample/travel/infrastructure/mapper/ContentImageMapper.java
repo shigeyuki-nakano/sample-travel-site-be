@@ -9,10 +9,10 @@ import java.util.List;
 @Mapper
 public interface ContentImageMapper {
 
-    @Select({
-        "SELECT content_id, image_url, sort_order",
-        "FROM t_content_images",
-        "ORDER BY content_id ASC, sort_order ASC"
-    })
+    @Select("""
+        SELECT content_id, image_url, sort_order
+        FROM t_content_images
+        ORDER BY content_id, sort_order
+    """)
     List<ContentImageEntity> findAll();
 }
