@@ -12,12 +12,12 @@ class ContentsMapperSpec extends Specification {
     @Autowired
     ContentsMapper mapper
 
-    def "findAll() がシードデータの全件（8件）を返すこと"() {
+    def "findAll() がテストデータの全件（3件）を返すこと"() {
         when:
         def result = mapper.findAll()
 
         then:
-        result.size() == 8
+        result.size() == 3
     }
 
     def "findAll() が id 昇順で返すこと"() {
@@ -26,17 +26,17 @@ class ContentsMapperSpec extends Specification {
 
         then:
         result[0].id == 1L
-        result[7].id == 8L
+        result[2].id == 3L
     }
 
-    def "content_id=1 の averageRating と reviewCount がシードデータと一致すること"() {
+    def "content_id=1 の averageRating と reviewCount がテストデータと一致すること"() {
         when:
         def result = mapper.findAll()
         def content1 = result.find { it.id == 1L }
 
         then:
         content1 != null
-        content1.reviewCount == 3L
+        content1.reviewCount == 2L
         content1.averageRating.compareTo(new BigDecimal("4.97")) == 0
     }
 
