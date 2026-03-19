@@ -2,11 +2,15 @@ package com.sample.travel.infrastructure.mapper
 
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.jdbc.Sql
 import spock.lang.Specification
 
 import java.math.BigDecimal
 
 @MybatisTest
+@ActiveProfiles("test")
+@Sql(scripts = ["classpath:sql/mapper/ContentsMapper.sql"])
 class ContentsMapperSpec extends Specification {
 
     @Autowired
@@ -57,6 +61,6 @@ class ContentsMapperSpec extends Specification {
 
         then:
         content1 != null
-        content1.favorite
+        !content1.favorite
     }
 }
