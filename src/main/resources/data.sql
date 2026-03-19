@@ -1,12 +1,12 @@
 -- ============================================================
 -- 国マスタ
 -- ============================================================
-INSERT INTO countries (id, name) VALUES (1, '日本');
+INSERT INTO m_countries (id, name) VALUES (1, '日本');
 
 -- ============================================================
 -- 都道府県マスタ（全47都道府県）
 -- ============================================================
-INSERT INTO prefectures (id, country_id, name) VALUES
+INSERT INTO m_prefectures (id, country_id, name) VALUES
     ( 1, 1, '北海道'),
     ( 2, 1, '青森県'),
     ( 3, 1, '岩手県'),
@@ -58,7 +58,7 @@ INSERT INTO prefectures (id, country_id, name) VALUES
 -- ============================================================
 -- ユーザー（user_id=1 がログインユーザー想定）
 -- ============================================================
-INSERT INTO users (id, name, email, icon_url) VALUES
+INSERT INTO t_users (id, name, email, icon_url) VALUES
     (1, 'テストユーザー',   'test@example.com',     NULL),
     (2, 'レビュアーA',     'reviewer_a@example.com', NULL),
     (3, 'レビュアーB',     'reviewer_b@example.com', NULL),
@@ -67,7 +67,7 @@ INSERT INTO users (id, name, email, icon_url) VALUES
 -- ============================================================
 -- コンテンツ
 -- ============================================================
-INSERT INTO contents (id, title, prefecture_id, address, distance, price, available_from, available_to) VALUES
+INSERT INTO t_contents (id, title, prefecture_id, address, distance, price, available_from, available_to) VALUES
     (1, '海を一望できる絶景ヴィラ',                  47, '',         '海岸から徒歩2分',           28000, '2026-03-20 00:00:00', '2026-03-25 00:00:00'),
     (2, '京都の町家リノベーション',                  26, '',         '祇園まで徒歩5分',           18500, '2026-04-01 00:00:00', '2026-04-05 00:00:00'),
     (3, '北海道の大自然に囲まれたログハウス',         1, '',         '富良野駅から車15分',        22000, '2026-05-03 00:00:00', '2026-05-07 00:00:00'),
@@ -80,7 +80,7 @@ INSERT INTO contents (id, title, prefecture_id, address, distance, price, availa
 -- ============================================================
 -- コンテンツ画像
 -- ============================================================
-INSERT INTO content_images (content_id, image_url, sort_order) VALUES
+INSERT INTO t_content_images (content_id, image_url, sort_order) VALUES
     (1, 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80', 1),
     (2, 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80', 1),
     (3, 'https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?w=800&q=80', 1),
@@ -94,7 +94,7 @@ INSERT INTO content_images (content_id, image_url, sort_order) VALUES
 -- レビュー（各コンテンツ3件、AVGが期待値に近くなるよう設定）
 -- rating: content1=4.97, 2=4.89, 3=4.95, 4=4.92, 5=4.98, 6=4.85, 7=4.91, 8=4.78
 -- ============================================================
-INSERT INTO reviews (content_id, user_id, rating, comment) VALUES
+INSERT INTO t_reviews (content_id, user_id, rating, comment) VALUES
     -- content 1（avg ≒ 4.97）
     (1, 2, 5.00, '最高のロケーションでした。'),
     (1, 3, 4.97, '海の眺めが素晴らしく、また泊まりたいです。'),
@@ -131,6 +131,6 @@ INSERT INTO reviews (content_id, user_id, rating, comment) VALUES
 -- ============================================================
 -- お気に入り（user_id=1 が content 2・6 をお気に入り済み）
 -- ============================================================
-INSERT INTO favorites (user_id, content_id) VALUES
+INSERT INTO t_favorites (user_id, content_id) VALUES
     (1, 2),
     (1, 6);
