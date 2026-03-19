@@ -31,25 +31,7 @@ public class ContentsRepositoryImpl implements ContentsRepository {
                 ));
 
         return entities.stream()
-                .map(entity -> toContent(entity, imagesByContentId))
+                .map(entity -> entity.toContent(imagesByContentId.getOrDefault(entity.getId(), List.of())))
                 .toList();
-    }
-
-    private Content toContent(ContentEntity entity, Map<Long, List<String>> imagesByContentId) {
-        return new Content(
-                entity.getId(),
-                entity.getTitle(),
-                entity.getPrefectureName(),
-                entity.getCountryName(),
-                entity.getAddress(),
-                entity.getDistance(),
-                entity.getPrice(),
-                entity.getAvailableFrom(),
-                entity.getAvailableTo(),
-                entity.getAverageRating(),
-                entity.getReviewCount(),
-                entity.isFavorite(),
-                imagesByContentId.getOrDefault(entity.getId(), List.of())
-        );
     }
 }
