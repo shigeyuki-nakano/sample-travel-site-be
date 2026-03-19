@@ -1,16 +1,11 @@
--- ContentsMapperSpec 専用テストデータ
+-- ContentsMapperSpec 専用テストデータ（トランザクションデータのみ）
+-- マスタデータ（m_countries, m_prefectures）は data.sql で定義済み
 -- テストケース:
 --   - 全件取得（3件）
 --   - id 昇順
 --   - content_id=1: reviewCount=2, averageRating=4.97
 --   - content_id=2: favorite=true（user_id=1 がお気に入り登録）
 --   - content_id=1: favorite=false
-
-INSERT INTO m_countries (id, name) VALUES (1, '日本');
-
-INSERT INTO m_prefectures (id, country_id, name) VALUES
-    (1, 1, '東京都'),
-    (2, 1, '沖縄県');
 
 INSERT INTO t_users (id, name, email) VALUES
     (1, 'テストユーザー', 'test@example.com'),
