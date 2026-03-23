@@ -1,21 +1,23 @@
 package com.sample.travel.domain.model;
 
+import lombok.NonNull;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public record Content(
-        Long id,
-        String title,
-        String prefectureName,
-        String countryName,
-        String address,
-        String distance,
-        Integer price,
-        LocalDateTime availableFrom,
-        LocalDateTime availableTo,
+        long id,
+        @NonNull String title,
+        @NonNull String prefectureName,
+        @NonNull String countryName,
+        @NonNull String address,
+        @NonNull String distance,
+        int price,
+        @NonNull LocalDateTime availableFrom,
+        @NonNull LocalDateTime availableTo,
         BigDecimal averageRating,
-        Long reviewCount,
+        long reviewCount,
         boolean favorite,
-        List<String> images
+        @NonNull List<String> images
 ) {}
