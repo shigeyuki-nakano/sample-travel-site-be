@@ -43,6 +43,18 @@ components:
 
     ContentResponse:
       type: object
+      required:
+        - id
+        - title
+        - location
+        - distance
+        - dates
+        - price
+        - rating
+        - reviewCount
+        - isFavorite
+        - images
+        - isGuestFavorite
       properties:
         id:
           type: integer
