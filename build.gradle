@@ -3,6 +3,7 @@ plugins {
 	id 'groovy'
 	id 'org.springframework.boot' version '4.0.3'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.openapi.generator' version '7.6.0'
 }
 
 group = 'com.sample'
@@ -24,8 +25,39 @@ repositories {
 	mavenCentral()
 }
 
+openApiGenerate {
+	generatorName = 'spring'
+	inputSpec     = "${rootDir}/src/main/resources/openapi.yaml"
+	outputDir     = "${layout.buildDirectory.get()}/generated/openapi"
+	apiPackage    = 'com.sample.travel.presentation.api'
+	modelPackage  = 'com.sample.travel.presentation.dto'
+	configOptions = [
+		interfaceOnly          : 'true',
+		useSpringBoot3         : 'true',
+		useTags                : 'true',
+		openApiNullable        : 'false',
+		hideGenerationTimestamp: 'true',
+		skipDefaultInterface   : 'true',
+	]
+	generateApiTests          = false
+	generateModelTests        = false
+	generateApiDocumentation  = false
+	generateModelDocumentation = false
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir "${layout.buildDirectory.get()}/generated/openapi/src/main/java"
+		}
+	}
+}
+
+compileJava.dependsOn tasks.openApiGenerate
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-h2console'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.1'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2'

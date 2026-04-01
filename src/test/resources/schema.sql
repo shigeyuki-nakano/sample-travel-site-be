@@ -1,3 +1,5 @@
+-- UT用スキーマ定義（本番スキーマと同一構造）
+
 -- ============================================================
 -- テーブル命名規則
 --   m_ : マスタテーブル（静的な参照データ）
@@ -78,7 +80,7 @@ CREATE TABLE IF NOT EXISTS t_reviews (
     updated_by VARCHAR(100)  NOT NULL DEFAULT 'system',
     PRIMARY KEY (id),
     CONSTRAINT fk_t_reviews_content_id FOREIGN KEY (content_id) REFERENCES t_contents (id),
-    CONSTRAINT fk_t_reviews_user_id    FOREIGN KEY (user_id)    REFERENCES t_users   (id)
+    CONSTRAINT fk_t_reviews_user_id    FOREIGN KEY (user_id)    REFERENCES t_users    (id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_t_reviews_content_id ON t_reviews (content_id);

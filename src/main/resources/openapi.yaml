@@ -1,0 +1,105 @@
+openapi: "3.0.3"
+info:
+  title: Sample Travel Site API
+  version: "1.0.0"
+  description: 旅行サイトの宿泊施設情報を提供する REST API
+
+tags:
+  - name: contents
+    description: 宿泊施設コンテンツ
+
+paths:
+  /v1/contents:
+    get:
+      tags:
+        - contents
+      summary: 宿泊施設一覧取得
+      description: 宿泊施設の一覧を id 昇順で返す。
+      operationId: getContents
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentsListResponse'
+        "500":
+          description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+
+    ContentsListResponse:
+      type: object
+      properties:
+        contents:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentResponse'
+      required:
+        - contents
+
+    ContentResponse:
+      type: object
+      required:
+        - id
+        - title
+        - location
+        - distance
+        - dates
+        - price
+        - rating
+        - reviewCount
+        - isFavorite
+        - images
+        - isGuestFavorite
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: コンテンツID
+        title:
+          type: string
+          description: タイトル
+        location:
+          type: string
+          description: 都道府県名と国名を組み合わせた場所（例：沖縄県、日本）
+        distance:
+          type: string
+          description: 最寄り地点からの距離
+        dates:
+          type: string
+          description: M月D日〜D日 形式の予約可能期間（例：3月20日〜25日）
+        price:
+          type: integer
+          description: 1泊の料金（円）
+        rating:
+          type: number
+          nullable: true
+          description: レビューの平均評価（小数第2位まで）。レビューなしの場合は null
+        reviewCount:
+          type: integer
+          format: int64
+          description: レビュー件数
+        isFavorite:
+          type: boolean
+          description: ログインユーザーがお気に入り登録済みかどうか
+        images:
+          type: array
+          items:
+            type: string
+          description: コンテンツ画像の URL リスト（sort_order 昇順）
+        isGuestFavorite:
+          type: boolean
+          description: 平均評価が 4.9 以上かつレビュー件数が 1 件以上の場合 true
+
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: エラーメッセージ
