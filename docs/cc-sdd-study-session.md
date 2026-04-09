@@ -807,6 +807,12 @@ TDD が強制される
 
 ## 参考: 今回の実装で作成したファイル一覧
 
+### 最終成果物例
+
+* cc-sddドキュメント：https://github.com/shigeyuki-nakano/common-task-document/pull/2
+* 実装：https://github.com/shigeyuki-nakano/sample-travel-site-be/pull/4
+
+
 ### プロダクションコード
 
 ```
