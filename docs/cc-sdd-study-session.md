@@ -809,6 +809,7 @@ TDD が強制される
 
 ### 最終成果物例
 
+※流したプロンプトごとにcommitしてあるため、どんなプロンプトを打ったかはcommit履歴の確認をお願いします
 * cc-sddドキュメント：https://github.com/shigeyuki-nakano/common-task-document/pull/2
 * 実装：https://github.com/shigeyuki-nakano/sample-travel-site-be/pull/4
 
