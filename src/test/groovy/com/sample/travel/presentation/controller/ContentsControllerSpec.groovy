@@ -11,8 +11,10 @@ import spock.lang.Specification
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
+import static org.hamcrest.Matchers.containsString
 import static org.mockito.Mockito.when
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @WebMvcTest(ContentsController)
@@ -113,6 +115,39 @@ class ContentsControllerSpec extends Specification {
         mockMvc.perform(get("/v1/contents"))
             .andExpect(status().isInternalServerError())
             .andExpect(jsonPath('$.message').exists())
+    }
+
+    def "CORS — 許可オリジンからのリクエストで Access-Control-Allow-Origin ヘッダーが返却されること"() {
+        given:
+        when(contentsService.findAll()).thenReturn([])
+
+        expect:
+        mockMvc.perform(get("/v1/contents").header("Origin", "http://localhost:3000"))
+            .andExpect(status().isOk())
+            .andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:3000"))
+    }
+
+    def "CORS — プリフライトリクエストが HTTP 200 で応答し許可メソッド・ヘッダーが返却されること"() {
+        expect:
+        mockMvc.perform(options("/v1/contents")
+                .header("Origin", "http://localhost:3000")
+                .header("Access-Control-Request-Method", "POST")
+                .header("Access-Control-Request-Headers", "Content-Type,Authorization"))
+            .andExpect(status().isOk())
+            .andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:3000"))
+            .andExpect(header().string("Access-Control-Allow-Methods", containsString("POST")))
+            .andExpect(header().string("Access-Control-Allow-Headers", containsString("Content-Type")))
+            .andExpect(header().string("Access-Control-Allow-Headers", containsString("Authorization")))
+    }
+
+    def "CORS — 非許可オリジンからのリクエストで Access-Control-Allow-Origin ヘッダーが返却されないこと"() {
+        given:
+        when(contentsService.findAll()).thenReturn([])
+
+        expect:
+        mockMvc.perform(get("/v1/contents").header("Origin", "http://localhost:9999"))
+            .andExpect(status().isForbidden())
+            .andExpect(header().doesNotExist("Access-Control-Allow-Origin"))
     }
 
     private static Content content(Long id, String title, String prefecture, String country,
