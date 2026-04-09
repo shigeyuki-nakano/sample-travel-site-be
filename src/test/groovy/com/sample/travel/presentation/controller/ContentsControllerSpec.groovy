@@ -107,7 +107,7 @@ class ContentsControllerSpec extends Specification {
             .andExpect(jsonPath('$.contents[0].rating').doesNotExist())
     }
 
-    def "Service が例外をスロー — HTTP 500 と message フィールドが返ること"() {
+    def "Service が例外をスロー — HTTP 500 と message・type フィールドが返ること"() {
         given:
         when(contentsService.findAll()).thenThrow(new RuntimeException("DB error"))
 
@@ -115,6 +115,7 @@ class ContentsControllerSpec extends Specification {
         mockMvc.perform(get("/v1/contents"))
             .andExpect(status().isInternalServerError())
             .andExpect(jsonPath('$.message').exists())
+            .andExpect(jsonPath('$.type').value("INTERNAL_SERVER_ERROR"))
     }
 
     def "CORS — 許可オリジンからのリクエストで Access-Control-Allow-Origin ヘッダーが返却されること"() {

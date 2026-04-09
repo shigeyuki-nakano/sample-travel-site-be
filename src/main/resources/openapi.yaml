@@ -7,6 +7,8 @@ info:
 tags:
   - name: contents
     description: 宿泊施設コンテンツ
+  - name: likes
+    description: お気に入り登録・解除
 
 paths:
   /v1/contents:
@@ -25,6 +27,56 @@ paths:
                 $ref: '#/components/schemas/ContentsListResponse'
         "500":
           description: サーバー内部エラー
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/contents/{contentId}/like:
+    post:
+      tags:
+        - likes
+      summary: お気に入り登録
+      operationId: postLike
+      parameters:
+        - name: contentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "201":
+          description: 登録成功
+        "404":
+          description: コンテンツが存在しない
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "409":
+          description: 既にお気に入り登録済み
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - likes
+      summary: お気に入り解除
+      operationId: deleteLike
+      parameters:
+        - name: contentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "204":
+          description: 解除成功
+        "404":
+          description: コンテンツまたはお気に入りが存在しない
           content:
             application/json:
               schema:
@@ -99,7 +151,13 @@ components:
 
     ErrorResponse:
       type: object
+      required:
+        - type
+        - message
       properties:
+        type:
+          type: string
+          description: "エラー種別（例: CONTENT_NOT_FOUND）"
         message:
           type: string
           description: エラーメッセージ
